@@ -16,15 +16,17 @@ import (
 func main() {
 	now := time.Now()
 	err := os.Mkdir("hits-"+now.Format("01-02-2006"), 0755)
-	fmt.Println(" ▄▄▄·  ▄▄▄· ▄▄▄·  ▄▄·  ▄ .▄▄▄▄ .    ·▄▄▄▄•      ▪   ")
-	fmt.Println("▐█ ▀█ ▐█ ▄█▐█ ▀█ ▐█ ▌▪██▪▐█▀▄.▀·    ▪▀·.█▌▪     ██  ")
-	fmt.Println("▄█▀▀█  ██▀·▄█▀▀█ ██ ▄▄██▀▐█▐▀▀▪▄    ▄█▀▀▀• ▄█▀▄ ▐█· ")
-	fmt.Println("▐█ ▪▐▌▐█▪·•▐█ ▪▐▌▐███▌██▌▐▀▐█▄▄▌    █▌▪▄█▀▐█▌.▐▌▐█▌ ")
-	fmt.Println(" ▀  ▀ .▀    ▀  ▀ ·▀▀▀ ▀▀▀ · ▀▀▀     ·▀▀▀ • ▀█▄▀▪▀▀▀ ")
-	fmt.Print("[NDDs List]: ")
+	fmt.Println("	 ▄▄▄·  ▄▄▄· ▄▄▄·  ▄▄·  ▄ .▄▄▄▄ .    ·▄▄▄▄•      ▪   ")
+	fmt.Println("	▐█ ▀█ ▐█ ▄█▐█ ▀█ ▐█ ▌▪██▪▐█▀▄.▀·    ▪▀·.█▌▪     ██  ")
+	fmt.Println("	▄█▀▀█  ██▀·▄█▀▀█ ██ ▄▄██▀▐█▐▀▀▪▄    ▄█▀▀▀• ▄█▀▄ ▐█· ")
+	fmt.Println("	▐█ ▪▐▌▐█▪·•▐█ ▪▐▌▐███▌██▌▐▀▐█▄▄▌    █▌▪▄█▀▐█▌.▐▌▐█▌ ")
+	fmt.Println("	 ▀  ▀ .▀    ▀  ▀ ·▀▀▀ ▀▀▀ · ▀▀▀     ·▀▀▀ • ▀█▄▀▪▀▀▀ ")
+	fmt.Print("[*]> ")
 
 	var filename string
+
 	fmt.Scanln(&filename)
+
 	file, err := os.Open(filename)
 
 	if err != nil {
@@ -38,18 +40,18 @@ func main() {
 	for scanner.Scan() {
 		lines = append(lines, scanner.Text())
 	}
-
-	length := len(lines)
 	var wg sync.WaitGroup
-	wg.Add(length)
-	for v := 0; v < length; v++ {
-		go func(v int) {
+	for _, url := range lines {
+		wg.Add(1)
+
+		go func(url string) {
 			defer wg.Done()
-			scan(lines[v])
-		}(v)
+			scan(url)
+		}(url)
 	}
 
 	wg.Wait()
+
 }
 
 func scan(url string) bool {
@@ -82,7 +84,7 @@ func scan(url string) bool {
 			other, err2 := regexp.MatchString(`smtp\.sendgrid\.net|smtp\.mailgun\.org|smtp-relay\.sendinblue\.com|smtp.tipimail.com|smtp.sparkpostmail.com|vonage|nexmo|twilo|smtp.deliverabilitymanager.net|smtp.mailendo.com|mail.smtpeter.com|mail.smtp2go.com|smtp.socketlabs.com|secure.emailsrvr.com|mail.infomaniak.com|smtp.pepipost.com|smtp.elasticemail.com|smtp25.elasticemail.com|pro.turbo-smtp.com|smtp-pulse.com|in-v3.mailjet.com`, string(body))
 			if akia {
 				fmt.Println("[AKIA]: " + url)
-				f, err := os.Create("hits-" + now.Format("01-02-2006") + "/" + "AKIA-" + url + ".txt")
+				f, err := os.Create("hits-" + now.Format("01-02-2006") + "/AKIA-" + url + ".txt")
 				if err != nil {
 					log.Fatal(err)
 				}
@@ -102,7 +104,7 @@ func scan(url string) bool {
 
 			if other {
 				fmt.Println("[OTHER]: " + url)
-				f, err := os.Create("hits-" + now.Format("01-02-2006") + "/" + "OTHER-" + url + ".txt")
+				f, err := os.Create("hits-" + now.Format("01-02-2006") + "/OTHER-" + url + ".txt")
 				if err != nil {
 					log.Fatal(err)
 				}
@@ -121,7 +123,7 @@ func scan(url string) bool {
 			}
 
 			fmt.Println("[NOTHING]: " + url)
-			f, err := os.Create("hits-" + now.Format("01-02-2006") + "/NOTHING-" + url + ".txt")
+			f, err := os.Create("hits-" + now.Format("01-02-2006") + "/" + url + ".txt")
 
 			if err != nil {
 				log.Fatal(err)
@@ -141,4 +143,5 @@ func scan(url string) bool {
 	}
 
 	return false
+
 }
