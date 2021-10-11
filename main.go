@@ -16,12 +16,16 @@ import (
 func main() {
 	now := time.Now()
 	err := os.Mkdir("hits-"+now.Format("01-02-2006"), 0755)
-	fmt.Println("	 ▄▄▄·  ▄▄▄· ▄▄▄·  ▄▄·  ▄ .▄▄▄▄ .    ·▄▄▄▄•      ▪   ")
-	fmt.Println("	▐█ ▀█ ▐█ ▄█▐█ ▀█ ▐█ ▌▪██▪▐█▀▄.▀·    ▪▀·.█▌▪     ██  ")
-	fmt.Println("	▄█▀▀█  ██▀·▄█▀▀█ ██ ▄▄██▀▐█▐▀▀▪▄    ▄█▀▀▀• ▄█▀▄ ▐█· ")
-	fmt.Println("	▐█ ▪▐▌▐█▪·•▐█ ▪▐▌▐███▌██▌▐▀▐█▄▄▌    █▌▪▄█▀▐█▌.▐▌▐█▌ ")
-	fmt.Println("	 ▀  ▀ .▀    ▀  ▀ ·▀▀▀ ▀▀▀ · ▀▀▀     ·▀▀▀ • ▀█▄▀▪▀▀▀ ")
-	fmt.Print("[*]> ")
+
+	fmt.Println(`        __            __        _____                 __        __          `)
+	fmt.Println(`______ |  |__ ______ |__| _____/ ____\____      ____ |__|____  |  | ______  `)
+	fmt.Println(`\____ \|  |  \\____ \|  |/    \   __\/  _ \    / ___\|  \__  \ |  |/ /  _ \ `)
+	fmt.Println(`|  |_> >   Y  \  |_> >  |   |  \  | (  <_> )  / /_/  >  |/ __ \|    <  <_> )`)
+	fmt.Println(`|   __/|___|  /   __/|__|___|  /__|  \____/   \___  /|__(____  /__|_ \____/ `)
+	fmt.Println(`|__|        \/|__|           \/              /_____/         \/     \/  	 `)
+	fmt.Println(`		             @z01youl	 				  			             `)
+	fmt.Println()
+	fmt.Print("[NDDs File]> ")
 
 	var filename string
 
@@ -41,13 +45,13 @@ func main() {
 		lines = append(lines, scanner.Text())
 	}
 	var wg sync.WaitGroup
-	for _, url := range lines {
+	length := len(lines)
+	for i := 0; i < length; i++ {
 		wg.Add(1)
-
-		go func(url string) {
+		go func(i int) {
 			defer wg.Done()
-			scan(url)
-		}(url)
+			scan(lines[i])
+		}(i)
 	}
 
 	wg.Wait()
