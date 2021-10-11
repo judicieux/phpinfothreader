@@ -13,8 +13,7 @@ import (
 
 func main() {
 	now := time.Now()
-
-	err := os.Mkdir("hits-"+now.Format("01-02-2006"), 0755)
+	err := os.Mkdir("hits-" + now.Format("01-02-2006"), 0755)
 	fmt.Println(" ▄▄▄·  ▄▄▄· ▄▄▄·  ▄▄·  ▄ .▄▄▄▄ .    ·▄▄▄▄•      ▪   ")
 	fmt.Println("▐█ ▀█ ▐█ ▄█▐█ ▀█ ▐█ ▌▪██▪▐█▀▄.▀·    ▪▀·.█▌▪     ██  ")
 	fmt.Println("▄█▀▀█  ██▀·▄█▀▀█ ██ ▄▄██▀▐█▐▀▀▪▄    ▄█▀▀▀• ▄█▀▄ ▐█· ")
@@ -24,7 +23,6 @@ func main() {
 	var filename string
 	fmt.Scanln(&filename)
 	file, err := os.Open(filename)
-
 	if err != nil {
 		log.Fatal(err)
 	}
