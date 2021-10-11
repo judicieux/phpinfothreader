@@ -1,1 +1,1 @@
-# informationdisclosure
+# InformationDisclosure
