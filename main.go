@@ -8,12 +8,13 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"sync"
 	"time"
 )
 
 func main() {
 	now := time.Now()
-	err := os.Mkdir("hits-" + now.Format("01-02-2006"), 0755)
+	err := os.Mkdir("hits-"+now.Format("01-02-2006"), 0755)
 	fmt.Println(" ▄▄▄·  ▄▄▄· ▄▄▄·  ▄▄·  ▄ .▄▄▄▄ .    ·▄▄▄▄•      ▪   ")
 	fmt.Println("▐█ ▀█ ▐█ ▄█▐█ ▀█ ▐█ ▌▪██▪▐█▀▄.▀·    ▪▀·.█▌▪     ██  ")
 	fmt.Println("▄█▀▀█  ██▀·▄█▀▀█ ██ ▄▄██▀▐█▐▀▀▪▄    ▄█▀▀▀• ▄█▀▄ ▐█· ")
@@ -35,9 +36,17 @@ func main() {
 		lines = append(lines, scanner.Text())
 	}
 
-	for _, v := range lines {
-		scan(v)
+	length := len(lines)
+	var wg sync.WaitGroup
+	wg.Add(length)
+	for v := 0; v < length; v++ {
+		go func(v int) {
+			defer wg.Done()
+			scan(lines[v])
+		}(v)
 	}
+
+	wg.Wait()
 }
 
 func scan(url string) bool {
@@ -47,8 +56,7 @@ func scan(url string) bool {
 		_, netErrors := http.Get("https://www.google.com")
 
 		if netErrors != nil {
-			fmt.Fprintf(os.Stderr, "No Internet")
-			os.Exit(1)
+			return false
 		}
 
 		return false
@@ -81,8 +89,9 @@ func scan(url string) bool {
 			if err2 != nil {
 				log.Fatal(err2)
 			}
+		} else {
+			fmt.Println(url)
 		}
 	}
-
 	return false
 }
