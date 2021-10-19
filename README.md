@@ -1,1 +1,1 @@
-# InformationDisclosure
+# phpinfothreader
