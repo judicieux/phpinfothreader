@@ -23,7 +23,7 @@ func main() {
 	fmt.Println(`|  |_> >   Y  \  |_> >  |   |  \  | (  <_> ) `)
 	fmt.Println(`|   __/|___|  /   __/|__|___|  /__|  \____/  `)
 	fmt.Println(`|__|        \/|__|           \/              `)
-	fmt.Println(`		             	 @zetsugrand	  `)
+	fmt.Println(`		             	 @Illya3rei	  `)
 	fmt.Println()
 	fmt.Print("[NDDs File]> ")
 
