@@ -17,7 +17,7 @@ def scan(i):
 		pass
 
 def main():
-	directory = r'C:\Users\seepy\Desktop\hits-10-11-2021'
+	directory = r'C:\Users\zyuomo\Desktop\hits-10-11-2021'
 	sites = []
 	for filename in os.listdir(directory):
 		sites.append(filename.split(".txt")[0])
